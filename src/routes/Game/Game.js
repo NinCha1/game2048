@@ -15,11 +15,25 @@ export default class Game extends Component {
         super(props)
 
         this.state = {
-            boardMatrix: [[2, 4, 32, 16], [4, 2, 16, 32], [0, 0, 0, 0], [0, 0, 0, 0]],
+            boardMatrix: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
             score: 0,
             gameWon: false,
             gameLost: false,
         }
+        this.popRandom()
+        this.popRandom()
+    }
+
+    reset = () => {
+        this.setState({
+            boardMatrix: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+            score: 0,
+            gameWon: false,
+            gameLost: false,
+        }, () => {
+            this.popRandom()
+            this.popRandom()
+        })
     }
 
     popRandom = () => {
@@ -35,6 +49,10 @@ export default class Game extends Component {
         const tileValue = Math.random() < 0.5 ? 2 : 4
 
         boardMatrix[row][col] = tileValue
+
+        this.setState({
+            boardMatrix: boardMatrix
+        })
 
         this.checkGameover()
     }
@@ -65,6 +83,8 @@ export default class Game extends Component {
     leftMove = () => {
         const {boardMatrix} = this.state
 
+        let move = false
+
         for (let i = 0; i < 4; i++) {
 
             let mergedTiles = [0, 0, 0, 0]
@@ -76,6 +96,7 @@ export default class Game extends Component {
                     if (boardMatrix[i][k-1] == 0) {
                         boardMatrix[i][k-1] = boardMatrix[i][k]
                         boardMatrix[i][k] = 0
+                        move = true
                     }
                     else if (boardMatrix[i][k-1] == boardMatrix[i][k] && mergedTiles[k-1] == 0) {
                         // merge code
@@ -89,13 +110,14 @@ export default class Game extends Component {
                             this.setState({
                                 gameWon: true
                             })
+                        move = true
                         break;
                     }
                 }
             }
         }
-
-        this.popRandom()
+        if (move)
+            this.popRandom()
 
         this.setState({
             boardMatrix: boardMatrix
@@ -104,6 +126,8 @@ export default class Game extends Component {
 
     rightMove = () => {
         const {boardMatrix} = this.state
+
+        let move = false
 
         for (let i = 0; i < 4; i++) {
 
@@ -116,6 +140,7 @@ export default class Game extends Component {
                     if (boardMatrix[i][k+1] == 0) {
                         boardMatrix[i][k+1] = boardMatrix[i][k]
                         boardMatrix[i][k] = 0
+                        move = true
                     }
                     else if (boardMatrix[i][k+1] == boardMatrix[i][k] && mergedTiles[k+1] == 0) {
                         // merge code
@@ -129,13 +154,14 @@ export default class Game extends Component {
                             this.setState({
                                 gameWon: true
                             })
+                        move = true
                         break;
                     }
                 }
             }
         }
-
-        this.popRandom()
+        if (move)
+            this.popRandom()
         
         this.setState({
             boardMatrix: boardMatrix
@@ -145,6 +171,8 @@ export default class Game extends Component {
 
     upMove = () => {
         const {boardMatrix} = this.state
+
+        let move = false
 
         for (let i = 0; i < 4; i++) {
 
@@ -157,6 +185,7 @@ export default class Game extends Component {
                     if (boardMatrix[k-1][i] == 0) {
                         boardMatrix[k-1][i] = boardMatrix[k][i]
                         boardMatrix[k][i] = 0
+                        move = true
                     }
                     else if (boardMatrix[k-1][i] == boardMatrix[k][i] && mergedTiles[k-1] == 0) {
                         // merge code
@@ -170,13 +199,15 @@ export default class Game extends Component {
                             this.setState({
                                 gameWon: true
                             })
+                        move = true
                         break;
                     }
                 }
             }
         }
 
-        this.popRandom()
+        if (move)
+            this.popRandom()
         
         this.setState({
             boardMatrix: boardMatrix
@@ -185,6 +216,8 @@ export default class Game extends Component {
 
     downMove = () => {
         const {boardMatrix} = this.state
+
+        let move = false
 
         for (let i = 0; i < 4; i++) {
 
@@ -197,6 +230,7 @@ export default class Game extends Component {
                     if (boardMatrix[k+1][i] == 0) {
                         boardMatrix[k+1][i] = boardMatrix[k][i]
                         boardMatrix[k][i] = 0
+                        move = true
                     }
                     else if (boardMatrix[k+1][i] == boardMatrix[k][i] && mergedTiles[k+1] == 0) {
                         // merge code
@@ -210,13 +244,15 @@ export default class Game extends Component {
                             this.setState({
                                 gameWon: true
                             })
+                        move = true
                         break;
                     }
                 }
             }
         }
 
-        this.popRandom()
+        if (move)
+            this.popRandom()
         
         this.setState({
             boardMatrix: boardMatrix
@@ -248,14 +284,14 @@ export default class Game extends Component {
                     <SecondaryButton title='Up' style={styles.btn} onPress={this.upMove}/>
                     <SecondaryButton title='Down' style={styles.btn} onPress={this.downMove}/>
                     <SecondaryButton title='Menu' style={styles.btn} onPress={this.navigateToMenu}/>
-                    <SecondaryButton title='New Game' style={styles.btn} onPress={() => {}}/>
+                    <SecondaryButton title='New Game' style={styles.btn} onPress={this.reset}/>
                 </View>
-                {this.state.gameWon && <TouchableOpacity onPress={() => {}} style={styles.overlayBtn}>
+                {this.state.gameWon && <TouchableOpacity onPress={this.reset} style={styles.overlayBtn}>
                     <Text style={styles.gameoverHeading}>You Win!</Text>
                     <Text style={styles.gameoverScore}>Your Score: {this.state.score}</Text>
                     <Text style={styles.gameoverMessage}>Click anywhere to start a new game</Text>
                 </TouchableOpacity>}
-                {this.state.gameLost && <TouchableOpacity onPress={() => {}} style={styles.overlayBtn}>
+                {this.state.gameLost && <TouchableOpacity onPress={this.reset} style={styles.overlayBtn}>
                     <Text style={styles.gameoverHeading}>Game Over! </Text>
                     <Text style={styles.gameoverScore}>Your Score: {this.state.score}</Text>
                     <Text style={styles.gameoverMessage}>Click anywhere to start a new game</Text>
