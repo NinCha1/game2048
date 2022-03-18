@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="db1b0b9b-9f35-424b-ac68-9d522922d454"
+    Name="7e34dcb2-e4af-4dfa-803f-c824399f2474"
     Publisher="CN=ninou"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="db1b0b9b-9f35-424b-ac68-9d522922d454" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="7e34dcb2-e4af-4dfa-803f-c824399f2474" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>game2048</DisplayName>

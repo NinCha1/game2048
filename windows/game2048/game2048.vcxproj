@@ -6,7 +6,7 @@
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
-    <ProjectGuid>{474e095b-7cdc-4ee0-b72d-de81a163cb2b}</ProjectGuid>
+    <ProjectGuid>{c8bd2fd4-1109-469b-8b19-f1739daf63bf}</ProjectGuid>
     <ProjectName>game2048</ProjectName>
     <RootNamespace>game2048</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
